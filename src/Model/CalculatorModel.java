@@ -1,14 +1,23 @@
 package Model;
 
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class CalculatorModel {
     private double firstNumber;
     private double secondNumber;
     private String operator;
     private String currentInput;
     private boolean startNewNumber;
+    private CurrencyService currencyService;
+    private ObservableList<String> conversionHistory;
     
     public CalculatorModel() {
         clear();
+        currencyService = new CurrencyService();
+        conversionHistory = FXCollections.observableArrayList();
     }
     
     public void inputNumber(String number) {
@@ -124,5 +133,50 @@ public class CalculatorModel {
     
     public boolean isStartNewNumber() {
         return startNewNumber;
+    }
+
+    public double convertCurrency(String fromCurrency, String toCurrency, double amount) {
+        double result = currencyService.convertCurrency(fromCurrency, toCurrency, amount);
+        
+        // Сохраняем в историю
+        String historyEntry = String.format("%.2f %s = %.2f %s", 
+            amount, fromCurrency, result, toCurrency);
+        conversionHistory.add(historyEntry);
+        
+        return result;
+    }
+    
+    public ObservableList<String> getConversionHistory() {
+        return conversionHistory;
+    }
+    
+    public void clearConversionHistory() {
+        conversionHistory.clear();
+    }
+    
+    public double getLastConversionResult() {
+        if (conversionHistory.isEmpty()) return 0;
+        
+        String lastEntry = conversionHistory.get(conversionHistory.size() - 1);
+        // Парсим результат из строки истории
+        String[] parts = lastEntry.split("=");
+        if (parts.length > 1) {
+            try {
+                String resultStr = parts[1].trim().split(" ")[0];
+                return Double.parseDouble(resultStr);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+        return 0;
+    }
+    
+    // Добавим метод для получения текущего значения как double
+    public double getCurrentValue() {
+        try {
+            return Double.parseDouble(currentInput);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }
