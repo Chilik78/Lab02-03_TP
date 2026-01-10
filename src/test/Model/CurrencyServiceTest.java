@@ -187,18 +187,4 @@ public class CurrencyServiceTest {
         // Если мы дошли сюда без падения теста - все ок
         assertTrue(true);
     }
-    
-    // Вспомогательный метод для создания мок JSON ответа
-    private String getMockJsonResponse() {
-        return "{\n" +
-               "  \"base\": \"USD\",\n" +
-               "  \"date\": \"2024-01-01\",\n" +
-               "  \"rates\": {\n" +
-               "    \"EUR\": 0.92,\n" +
-               "    \"GBP\": 0.79,\n" +
-               "    \"JPY\": 147.5,\n" +
-               "    \"RUB\": 92.5\n" +
-               "  }\n" +
-               "}";
-    }
 }

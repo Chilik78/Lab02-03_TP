@@ -69,6 +69,8 @@ public class CalculatorControllerTest extends Application {
             System.out.println("\nТестирование кнопки замены знака");
             testSignBtn(3, "-3");
 
+            System.out.println("\n========================================");
+            System.out.println("✓ ВСЕ ТЕСТЫ ПРОЙДЕНЫ УСПЕШНО!");
         } catch (Exception err) {
             System.out.println("Тесты не были пройдены: " + err);
             Platform.exit();           
